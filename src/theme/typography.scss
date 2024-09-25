@@ -1,0 +1,54 @@
+@import 'colors.scss';
+@import 'mixins.scss';
+
+$base-font-family: 'Arial', sans-serif;
+$base-font-size: 16px;
+$base-line-height: 1.5;
+$font-weight-normal: 400;
+$font-weight-bold: 700;
+
+// Headings
+h1 {
+  font-size: 2rem;
+  font-weight: $font-weight-bold;
+  line-height: $base-line-height;
+
+  @include for-tablet-up {
+    font-size: 2.5rem;
+  }
+}
+
+h2 {
+  font-size: 1.25rem;
+  font-weight: $font-weight-bold;
+  line-height: $base-line-height;
+
+  @include for-tablet-up {
+    font-size: 1.5rem;
+  }
+}
+
+h3 {
+  font-size: 1rem;
+  font-weight: $font-weight-bold;
+  line-height: $base-line-height;
+
+  @include for-tablet-up {
+    font-size: 1.25rem;
+  }
+}
+
+p {
+  font-size: $base-font-size;
+  font-weight: $font-weight-normal;
+  line-height: $base-line-height;
+}
+
+a {
+  color: $palette-primary;
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
