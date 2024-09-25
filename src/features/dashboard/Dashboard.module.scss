@@ -1,0 +1,53 @@
+@import 'theme';
+
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-2;
+  align-items: center;
+  margin: 0 auto;
+  max-width: $layout-width-large;
+  padding: $spacing-2;
+
+  @include for-tablet-up {
+    padding: $spacing-4;
+  }
+
+  .toolbar {
+    margin-bottom: $spacing-4;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: $spacing-1;
+    max-width: 320px;
+    width: 100%;
+
+    .filter-input {
+      padding: $spacing-2;
+      border-width: 2px;
+      border-style: solid;
+      border-radius: 25px;
+      width: 100%;
+    }
+
+    .sorting {
+      display: flex;
+      align-items: center;
+      gap: $spacing-1;
+    }
+  }
+
+  .users-list {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: $spacing-1;
+    width: 100%;
+
+    @include for-tablet-up {
+      grid-template-columns: 1fr 1fr;
+    }
+    @include for-desktop-up {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+}

@@ -1,0 +1,21 @@
+@import 'theme';
+
+$tag-primary: $color-grey-100;
+$tag-text: $color-grey-800;
+
+.tag {
+  background: $tag-primary;
+  border-radius: 16px;
+  padding: $spacing-1 $spacing-2;
+  color: $tag-text;
+
+  &:hover {
+    background: $color-grey-200;
+  }
+
+  .icon {
+    display: inline;
+    margin-right: $spacing-1;
+    vertical-align: middle;
+  }
+}

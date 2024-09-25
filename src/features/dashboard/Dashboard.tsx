@@ -4,6 +4,7 @@ import { SortOrder, SortProperty } from 'types/Sorting';
 import User from 'types/User';
 import { useDebounce } from 'use-debounce';
 import flattenObjectValues from 'utils/flattenObjectValues';
+import styles from './Dashboard.module.scss';
 import UserCard from './UserCard';
 
 function Dashboard() {
@@ -64,46 +65,54 @@ function Dashboard() {
     };
 
     filterAndSortUsers();
-  }, [debounceQuery, sortProperty, sortOrder]);
+  }, [debounceQuery, sortProperty, sortOrder, users]);
 
   return (
-    <div>
+    <div className={styles['dashboard']}>
       <h1>Dashboard</h1>
 
-      <div>
+      <div className={styles['toolbar']}>
         <input
           type="text"
+          placeholder="Search user..."
           value={query}
           onChange={(e) => setQuery(e.target.value)}
           disabled={loading || !!error}
+          className={styles['filter-input']}
         />
-        <select
-          value={sortProperty || ''}
-          onChange={(e) => setSortProperty(e.target.value as SortProperty)}
-        >
-          <option value="">Sort by</option>
-          <option value={SortProperty.NAME}>Name</option>
-          <option value={SortProperty.EMAIL}>Email</option>
-        </select>
-        <div>
-          <label>
-            <input
-              type="radio"
-              value={SortOrder.ASC}
-              checked={sortOrder === SortOrder.ASC}
-              onChange={() => setSortOrder(SortOrder.ASC)}
-            />
-            Ascending
-          </label>
-          <label>
-            <input
-              type="radio"
-              value={SortOrder.DESC}
-              checked={sortOrder === SortOrder.DESC}
-              onChange={() => setSortOrder(SortOrder.DESC)}
-            />
-            Descending
-          </label>
+
+        <div className={styles['sorting']}>
+          <select
+            value={sortProperty || ''}
+            onChange={(e) => setSortProperty(e.target.value as SortProperty)}
+            disabled={loading || !!error}
+          >
+            <option value="">Sort by</option>
+            <option value={SortProperty.NAME}>Name</option>
+            <option value={SortProperty.EMAIL}>Email</option>
+          </select>
+          <div>
+            <label>
+              <input
+                type="radio"
+                value={SortOrder.ASC}
+                checked={sortOrder === SortOrder.ASC}
+                onChange={() => setSortOrder(SortOrder.ASC)}
+                disabled={loading || !!error}
+              />
+              Ascending
+            </label>
+            <label>
+              <input
+                type="radio"
+                value={SortOrder.DESC}
+                checked={sortOrder === SortOrder.DESC}
+                onChange={() => setSortOrder(SortOrder.DESC)}
+                disabled={loading || !!error}
+              />
+              Descending
+            </label>
+          </div>
         </div>
       </div>
 
@@ -111,7 +120,7 @@ function Dashboard() {
 
       {error && <p>{error}</p>}
 
-      <div>
+      <div className={styles['users-list']}>
         {!error &&
           !loading &&
           filteredUsers.map((user) => <UserCard user={user} key={user.id} />)}
