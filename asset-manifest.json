@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/corsearch-task/static/css/main.231bdb8d.css",
+    "main.js": "/corsearch-task/static/js/main.30cd7312.js",
+    "index.html": "/corsearch-task/index.html",
+    "main.231bdb8d.css.map": "/corsearch-task/static/css/main.231bdb8d.css.map",
+    "main.30cd7312.js.map": "/corsearch-task/static/js/main.30cd7312.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.231bdb8d.css",
+    "static/js/main.30cd7312.js"
+  ]
+}
