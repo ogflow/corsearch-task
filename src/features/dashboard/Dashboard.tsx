@@ -123,7 +123,11 @@ function Dashboard() {
       <div className={styles['users-list']}>
         {!error &&
           !loading &&
-          filteredUsers.map((user) => <UserCard user={user} key={user.id} />)}
+          (filteredUsers.length ? (
+            filteredUsers.map((user) => <UserCard user={user} key={user.id} />)
+          ) : (
+            <p>No users matching filters</p>
+          ))}
       </div>
     </div>
   );
