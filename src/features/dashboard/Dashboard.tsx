@@ -1,5 +1,6 @@
 import { getUsers } from 'api/users';
 import { useEffect, useState } from 'react';
+import { SortOrder, SortProperty } from 'types/Sorting';
 import User from 'types/User';
 import { useDebounce } from 'use-debounce';
 import flattenObjectValues from 'utils/flattenObjectValues';
@@ -12,6 +13,23 @@ function Dashboard() {
   const [filteredUsers, setFilteredUsers] = useState<User[]>([]);
   const [query, setQuery] = useState<string>('');
   const [debounceQuery] = useDebounce(query, 300);
+  const [sortProperty, setSortProperty] = useState<SortProperty | null>(null);
+  const [sortOrder, setSortOrder] = useState<SortOrder>(SortOrder.ASC);
+
+  const sortUsers = (users: User[]): User[] => {
+    if (!sortProperty) return users;
+
+    return [...users].sort((a, b) => {
+      const aValue = a[sortProperty].toLowerCase();
+      const bValue = b[sortProperty].toLowerCase();
+
+      if (sortOrder === 'asc') {
+        return aValue < bValue ? -1 : aValue > bValue ? 1 : 0;
+      } else {
+        return aValue > bValue ? -1 : aValue < bValue ? 1 : 0;
+      }
+    });
+  };
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -33,7 +51,7 @@ function Dashboard() {
   }, []);
 
   useEffect(() => {
-    const filterUsers = () => {
+    const filterAndSortUsers = () => {
       const lowercaseQuery = debounceQuery.toLowerCase();
 
       const filtered = users.filter((user) => {
@@ -41,11 +59,12 @@ function Dashboard() {
         return userDataString.includes(lowercaseQuery);
       });
 
-      setFilteredUsers(filtered);
+      const sorted = sortUsers(filtered);
+      setFilteredUsers(sorted);
     };
 
-    filterUsers();
-  }, [debounceQuery]);
+    filterAndSortUsers();
+  }, [debounceQuery, sortProperty, sortOrder]);
 
   return (
     <div>
@@ -58,6 +77,34 @@ function Dashboard() {
           onChange={(e) => setQuery(e.target.value)}
           disabled={loading || !!error}
         />
+        <select
+          value={sortProperty || ''}
+          onChange={(e) => setSortProperty(e.target.value as SortProperty)}
+        >
+          <option value="">Sort by</option>
+          <option value={SortProperty.NAME}>Name</option>
+          <option value={SortProperty.EMAIL}>Email</option>
+        </select>
+        <div>
+          <label>
+            <input
+              type="radio"
+              value={SortOrder.ASC}
+              checked={sortOrder === SortOrder.ASC}
+              onChange={() => setSortOrder(SortOrder.ASC)}
+            />
+            Ascending
+          </label>
+          <label>
+            <input
+              type="radio"
+              value={SortOrder.DESC}
+              checked={sortOrder === SortOrder.DESC}
+              onChange={() => setSortOrder(SortOrder.DESC)}
+            />
+            Descending
+          </label>
+        </div>
       </div>
 
       {loading && <p>loading...</p>}
